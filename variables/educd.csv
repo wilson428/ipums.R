@@ -1,0 +1,26 @@
+EDUCD,EDUC_SIMPLIFIED,EDUC_HAS_DEGREE
+"1 or more years of college credit, no degree",Some College or Associates,No College Degree
+"12th grade, no diploma",No High School,No College Degree
+"Associate's degree, type not specified",Some College or Associates,No College Degree
+Bachelor's degree,Bachelors,College Degree
+Doctoral degree,Postgraduate,College Degree
+GED or alternative credential,High School,No College Degree
+Grade 1,No High School,No College Degree
+Grade 10,No High School,No College Degree
+Grade 11,No High School,No College Degree
+Grade 2,No High School,No College Degree
+Grade 3,No High School,No College Degree
+Grade 4,No High School,No College Degree
+Grade 5,No High School,No College Degree
+Grade 6,No High School,No College Degree
+Grade 7,No High School,No College Degree
+Grade 8,No High School,No College Degree
+Grade 9,No High School,No College Degree
+Kindergarten,No High School,No College Degree
+Master's degree,Postgraduate,College Degree
+No schooling completed,No High School,No College Degree
+N/A,No High School,No College Degree
+"Nursery school, preschool",No High School,No College Degree
+Professional degree beyond a bachelor's degree,Postgraduate,College Degree
+Regular high school diploma,High School,No College Degree
+"Some college, but less than 1 year",Some College or Associates,No College Degree

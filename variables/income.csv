@@ -1,0 +1,8 @@
+INCTOT_MIN,INCTOT_MAX,CODE
+-100000000,-1,"Negative income"
+0,0,"No income"
+1,19999,"Less than $20,000"
+20000,49999,"Up to $50,000"
+50000,99999,"Up to $100,000"
+100000,249999,"Up to $250,000"
+250000,10000000,"$250,000 and up"
