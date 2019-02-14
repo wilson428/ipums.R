@@ -50,11 +50,18 @@ ipums_convert_factors <- function(ipums) {
   return(ipums);
 }
 
-ipums_convert_age <- function(data) {
-  data$AGE <- as.character(data$AGE);
-  data[data$AGE == "Less than 1 year old","AGE"] <- "0"
-  data[data$AGE == "90 (90+ in 1980 and 1990)","AGE"] <- "90"
-  data$AGE <- as.numeric(data$AGE)
+ipums_convert_AGE <- function(data) {
+  keys = names(data)[grepl("^AGE", names(data))];
+
+  for (key in keys) {
+    print(key);
+    keyNew = paste(key, "N", sep="");
+    data[,keyNew] <- as.character(data[,key]);
+    data[!is.na(data[[keyNew]]) & data[[keyNew]] == "Less than 1 year old",keyNew] <- "0"
+    data[!is.na(data[[keyNew]]) & data[[keyNew]] == "90 (90+ in 1980 and 1990)",keyNew] <- "90"
+    data[,keyNew] <- as.numeric(data[,keyNew])
+  }
+  
   return(data)
 }
 
@@ -133,26 +140,32 @@ ipums_field_EDUC <- function(data) {
     print("Skipping `makefield_Education` since 'EDUC' isn't present.")  
     return(data);
   }
-  
-  print("Simplifying EDUC into fewer categories in 'EDUC_SIMPLIFIED' and adding a 'EDUC_DEGREE' field")
-  
+
   # hand-crafted file that converts the many EDUCD values to more general categories
   canonical <- as.data.frame(read.csv("ipums.R/variables/educd.csv", stringsAsFactors = F))
   
-  data$EDUC_SIMPLIFIED <- "";
-  data$EDUC_HAS_DEGREE <- "";
   
-  convertField <- function(row) {
-    original <- as.character(row[1]);
-    data$EDUC_HAS_DEGREE[data$EDUCD==original] <- as.character(row[3])
-    data$EDUC_SIMPLIFIED[data$EDUCD==original] <- as.character(row[2])
-    return (data);
-  }
+  keys = names(data)[grepl("^EDUCD(_[A-Z]+)?$", names(data))];
   
-  for (i in 1:nrow(canonical)) {
-    data <- convertField(canonical[i,])
-  }
-  
+  for (key in keys) {
+    keySimplified = paste(key, "_SIMPLIFIED", sep="");
+    keyHasDegree = paste(key, "_HAS_DEGREE", sep="");
+    print(paste("Simplifying", key, "into", paste("'", keySimplified, "'", sep=""), "and", paste("'", keyHasDegree, "'", sep="")))
+    data[keySimplified] <- ""
+    data[keyHasDegree] <- ""
+
+    convertField <- function(row) {
+      original <- as.character(row[1]);
+      data[!is.na(data[[key]]) & data[[key]] == original, keySimplified] <- as.character(row[2])      
+      data[!is.na(data[[key]]) & data[[key]] == original, keyHasDegree] <- as.character(row[3])      
+      return (data);
+    }
+    
+    for (i in 1:nrow(canonical)) {
+      data <- convertField(canonical[i,])
+    }
+  }    
+
   return(data);
 }
 
